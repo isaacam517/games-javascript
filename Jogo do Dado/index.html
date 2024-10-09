@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Dado</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+        }
+        #resultado {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo do Dado</h1>
+    <button id="rolarDado">Rolar o Dado</button>
+    <p id="resultado">Resultado: -</p>
+
+    <script>
+        const botaoRolar = document.getElementById("rolarDado");
+        const resultado = document.getElementById("resultado");
+
+        botaoRolar.addEventListener("click", () => {
+            const numero = Math.floor(Math.random() * 6) + 1;
+            resultado.textContent = "Resultado: " + numero;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Forca</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        #palavra {
+            font-size: 24px;
+            letter-spacing: 10px;
+            margin-top: 20px;
+        }
+        #mensagem {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo da Forca!</h1>
+    <p>Adivinhe a palavra!</p>
+    <div id="palavra">_ _ _ _ _</div>
+    <input type="text" id="letra" placeholder="Digite uma letra" maxlength="1">
+    <button id="adivinhar">Adivinhar</button>
+    <p id="mensagem"></p>
+
+    <script>
+        const palavras = ["banana", "laranja", "maçã", "morango", "abacaxi"];
+        const palavraSelecionada = palavras[Math.floor(Math.random() * palavras.length)];
+        let letrasAdivinhadas = [];
+        let tentativas = 6;
+
+        function atualizarPalavra() {
+            const palavraDisplay = palavraSelecionada.split("").map(letra => {
+                return letrasAdivinhadas.includes(letra) ? letra : "_";
+            }).join(" ");
+            document.getElementById("palavra").textContent = palavraDisplay;
+
+            if (!palavraDisplay.includes("_")) {
+                document.getElementById("mensagem").textContent = "Parabéns! Você adivinhou a palavra!";
+                document.getElementById("adivinhar").disabled = true;
+            }
+        }
+
+        document.getElementById("adivinhar").addEventListener("click", () => {
+            const letra = document.getElementById("letra").value.toLowerCase();
+            document.getElementById("letra").value = ""; // Limpa o campo de entrada
+
+            if (!letrasAdivinhadas.includes(letra) && letra) {
+                letrasAdivinhadas.push(letra);
+                if (!palavraSelecionada.includes(letra)) {
+                    tentativas--;
+                }
+            }
+
+            if (tentativas === 0) {
+                document.getElementById("mensagem").textContent = `Fim de jogo! A palavra era "${palavraSelecionada}".`;
+                document.getElementById("adivinhar").disabled = true;
+            } else {
+                atualizarPalavra();
+            }
+        });
+
+        atualizarPalavra(); // Atualiza a palavra inicialmente
+    </script>
+</body>
+</html>

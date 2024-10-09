@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Cliques</title>
+</head>
+<body>
+    <h1>Pontos: <span id="pontos">0</span></h1>
+    <button id="botaoClique">Clique aqui!</button>
+
+    <script>
+        let pontos = 0;
+        const botaoClique = document.getElementById("botaoClique");
+        const pontosDisplay = document.getElementById("pontos");
+
+        // Função que aumenta os pontos ao clicar
+        botaoClique.addEventListener("click", () => {
+            pontos++;
+            pontosDisplay.textContent = pontos;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Cor</title>
+    <style>
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="corTexto">Clique na cor:</h1>
+    <button id="botaoVermelho">Vermelho</button>
+    <button id="botaoVerde">Verde</button>
+    <button id="botaoAzul">Azul</button>
+
+    <script>
+        const cores = ["Vermelho", "Verde", "Azul"];
+        const corTexto = document.getElementById("corTexto");
+        const botaoVermelho = document.getElementById("botaoVermelho");
+        const botaoVerde = document.getElementById("botaoVerde");
+        const botaoAzul = document.getElementById("botaoAzul");
+
+        let corCorreta = "";
+
+        function mudarCor() {
+            corCorreta = cores[Math.floor(Math.random() * cores.length)];
+            corTexto.textContent = "Clique na cor: " + corCorreta;
+        }
+
+        botaoVermelho.addEventListener("click", () => {
+            if (corCorreta === "Vermelho") {
+                alert("Correta! Vamos para a próxima.");
+                mudarCor();
+            } else {
+                alert("Errado! Tente novamente.");
+            }
+        });
+
+        botaoVerde.addEventListener("click", () => {
+            if (corCorreta === "Verde") {
+                alert("Correta! Vamos para a próxima.");
+                mudarCor();
+            } else {
+                alert("Errado! Tente novamente.");
+            }
+        });
+
+        botaoAzul.addEventListener("click", () => {
+            if (corCorreta === "Azul") {
+                alert("Correta! Vamos para a próxima.");
+                mudarCor();
+            } else {
+                alert("Errado! Tente novamente.");
+            }
+        });
+
+        // Iniciar com uma cor
+        mudarCor();
+    </script>
+</body>
+</html>
