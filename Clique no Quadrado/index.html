@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clique no Quadrado</title>
+    <style>
+        #quadrado {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: red;
+            display: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #quadrado.clicado {
+            background-color: green;
+        }
+        body {
+            position: relative;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pontos: <span id="pontos">0</span></h1>
+    <div id="quadrado"></div>
+
+    <script>
+        let pontos = 0;
+        const quadrado = document.getElementById("quadrado");
+        const pontosDisplay = document.getElementById("pontos");
+        let timeoutId = null;
+        let estáVisível = false;
+
+        function gerarPosição() {
+            const larguraQuadrado = quadrado.offsetWidth;
+            const alturaQuadrado = quadrado.offsetHeight;
+            const margem = 10; // px para evitar que saia da tela
+
+            const maxLeft = window.innerWidth - larguraQuadrado - margem;
+            const maxTop = window.innerHeight - alturaQuadrado - margem;
+
+            const left = Math.floor(Math.random() * maxLeft) + "px";
+            const top = Math.floor(Math.random() * maxTop) + "px";
+
+            return { left, top };
+        }
+
+        function mostrarQuadrado() {
+            if (estáVisível) return; // Evita múltiplas instâncias
+
+            const { left, top } = gerarPosição();
+            quadrado.style.left = left;
+            quadrado.style.top = top;
+            quadrado.style.display = "block";
+            quadrado.classList.remove("clicado");
+            estáVisível = true;
+
+            // Esconder o quadrado após 1 segundo
+            timeoutId = setTimeout(() => {
+                esconderQuadrado();
+            }, 1000);
+        }
+
+        function esconderQuadrado() {
+            quadrado.style.display = "none";
+            estáVisível = false;
+        }
+
+        quadrado.addEventListener("click", () => {
+            if (!estáVisível) return; // Ignorar cliques quando não está visível
+
+            pontos++;
+            pontosDisplay.textContent = pontos;
+            quadrado.classList.add("clicado");
+            esconderQuadrado();
+
+            // Cancelar o timeout para esconder o quadrado
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+
+            // Agendar a próxima aparição após 0.5 segundos
+            setTimeout(mostrarQuadrado, 500);
+        });
+
+        // Iniciar o jogo com um intervalo de 2 segundos entre aparições
+        setInterval(() => {
+            if (!estáVisível) {
+                mostrarQuadrado();
+            }
+        }, 2000);
+
+        // Iniciar o jogo imediatamente
+        mostrarQuadrado();
+    </script>
+</body>
+</html>

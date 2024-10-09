@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clique no Círculo</title>
+    <style>
+        #circulo {
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            border-radius: 50%;
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pontos: <span id="pontos">0</span></h1>
+    <div id="circulo"></div>
+
+    <script>
+        let pontos = 0;
+        const circulo = document.getElementById("circulo");
+        const pontosDisplay = document.getElementById("pontos");
+
+        function mostrarCirculo() {
+            const posicaoX = Math.random() * window.innerWidth - 50;
+            const posicaoY = Math.random() * window.innerHeight - 50;
+
+            circulo.style.left = posicaoX + "px";
+            circulo.style.top = posicaoY + "px";
+            circulo.style.display = "block";
+
+            // O círculo desaparece após 1.5 segundos
+            setTimeout(() => {
+                circulo.style.display = "none";
+            }, 1500);
+        }
+
+        circulo.addEventListener("click", () => {
+            pontos++;
+            pontosDisplay.textContent = pontos;
+            circulo.style.display = "none";
+            mostrarCirculo();
+        });
+
+        // Inicia o jogo
+        setInterval(mostrarCirculo, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória</title>
+    <style>
+        .tabuleiro {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            margin: 50px auto;
+            width: 440px;
+        }
+        .carta {
+            width: 100px;
+            height: 100px;
+            background-color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .virada {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabuleiro"></div>
+
+    <script>
+        const tabuleiro = document.querySelector(".tabuleiro");
+        const cartas = ["A", "B", "C", "D", "E", "F", "G", "H"];
+        let cartasDuplicadas = [...cartas, ...cartas];
+        let cartaVirada = false;
+        let primeiraCarta, segundaCarta;
+        let bloqueio = false;
+
+        cartasDuplicadas.sort(() => 0.5 - Math.random());
+
+        cartasDuplicadas.forEach((letra) => {
+            const carta = document.createElement("div");
+            carta.classList.add("carta");
+            carta.dataset.letra = letra;
+            carta.addEventListener("click", virarCarta);
+            tabuleiro.appendChild(carta);
+        });
+
+        function virarCarta() {
+            if (bloqueio) return;
+            if (this === primeiraCarta) return;
+
+            this.classList.add("virada");
+            this.textContent = this.dataset.letra;
+
+            if (!cartaVirada) {
+                cartaVirada = true;
+                primeiraCarta = this;
+                return;
+            }
+
+            segundaCarta = this;
+            verificarPar();
+        }
+
+        function verificarPar() {
+            if (primeiraCarta.dataset.letra === segundaCarta.dataset.letra) {
+                desabilitarCartas();
+            } else {
+                desvirarCartas();
+            }
+        }
+
+        function desabilitarCartas() {
+            primeiraCarta.removeEventListener("click", virarCarta);
+            segundaCarta.removeEventListener("click", virarCarta);
+            resetarTabuleiro();
+        }
+
+        function desvirarCartas() {
+            bloqueio = true;
+            setTimeout(() => {
+                primeiraCarta.classList.remove("virada");
+                segundaCarta.classList.remove("virada");
+                primeiraCarta.textContent = "";
+                segundaCarta.textContent = "";
+                resetarTabuleiro();
+            }, 1000);
+        }
+
+        function resetarTabuleiro() {
+            [cartaVirada, bloqueio] = [false, false];
+            [primeiraCarta, segundaCarta] = [null, null];
+        }
+    </script>
+</body

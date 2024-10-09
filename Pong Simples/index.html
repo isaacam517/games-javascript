@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Simples</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #canvas {
+            background-color: black;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const raquete = {
+            largura: 100,
+            altura: 20,
+            x: (canvas.width - 100) / 2,
+            y: canvas.height - 30,
+            dx: 10
+        };
+
+        const bola = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            raio: 10,
+            dx: 5,
+            dy: -5
+        };
+
+        function desenharRaquete() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(raquete.x, raquete.y, raquete.largura, raquete.altura);
+        }
+
+        function desenharBola() {
+            ctx.beginPath();
+            ctx.arc(bola.x, bola.y, bola.raio, 0, Math.PI * 2);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function moverRaquete() {
+            if (teclaEsquerda && raquete.x > 0) {
+                raquete.x -= raquete.dx;
+            }
+            if (teclaDireita && raquete.x < canvas.width - raquete.largura) {
+                raquete.x += raquete.dx;
+            }
+        }
+
+        function moverBola() {
+            bola.x += bola.dx;
+            bola.y += bola.dy;
+
+            if (bola.x + bola.raio > canvas.width || bola.x - bola.raio < 0) {
+                bola.dx *= -1;
+            }
+
+            if (bola.y - bola.raio < 0) {
+                bola.dy *= -1;
+            }
+
+            if (bola.y + bola.raio > raquete.y && bola.x > raquete.x && bola.x < raquete.x + raquete.largura) {
+                bola.dy *= -1;
+            }
+
+            if (bola.y + bola.raio > canvas.height) {
+                document.location.reload();
+            }
+        }
+
+        let teclaEsquerda = false;
+        let teclaDireita = false;
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") {
+                teclaEsquerda = true;
+            }
+            if (e.key === "ArrowRight") {
+                teclaDireita = true;
+            }
+        });
+
+        document.addEventListener("keyup", (e) => {
+            if (e.key === "ArrowLeft") {
+                teclaEsquerda = false;
+            }
+            if (e.key === "ArrowRight") {
+                teclaDireita = false;
+            }
+        });
+
+        function desenhar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            desenharRaquete();
+            desenharBola();
+            moverRaquete();
+            moverBola();
+            requestAnimationFrame(desenhar);
+        }
+
+        desenhar();
+    </script>
+</body>
+</html>

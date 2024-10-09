@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Número</title>
+</head>
+<body>
+    <h1>Adivinhe o Número (1 a 10)</h1>
+
+    <p>Digite um número entre 1 e 10:</p>
+    <input type="number" id="palpite" min="1" max="10">
+    <button onclick="adivinhar()">Adivinhar</button>
+
+    <p id="mensagem"></p>
+
+    <script>
+        // Gera um número aleatório entre 1 e 10
+        let numeroCorreto = Math.floor(Math.random() * 10) + 1;
+
+        function adivinhar() {
+            const palpite = parseInt(document.getElementById("palpite").value);
+            const mensagem = document.getElementById("mensagem");
+
+            // Verifica se o palpite está correto
+            if (palpite === numeroCorreto) {
+                mensagem.textContent = "Parabéns! Você adivinhou o número!";
+                reiniciarJogo();
+            } else if (palpite < numeroCorreto) {
+                mensagem.textContent = "Tente um número maior.";
+            } else {
+                mensagem.textContent = "Tente um número menor.";
+            }
+        }
+
+        function reiniciarJogo() {
+            // Gera um novo número aleatório e limpa a entrada do usuário
+            numeroCorreto = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("palpite").value = "";
+        }
+    </script>
+</body>
+</html>
