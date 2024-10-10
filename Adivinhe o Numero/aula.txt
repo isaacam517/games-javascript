@@ -1,0 +1,557 @@
+Aula de Programação: Construindo o Adivinhe o Número
+Bem-vindo à nossa segunda aula de programação! Hoje vamos criar um Jogo de Adivinhação de Número simples usando HTML, CSS e JavaScript. Este projeto é ideal para iniciantes que desejam aprimorar suas habilidades em interação com o usuário, lógica condicional e manipulação do DOM.
+
+Objetivos da Aula
+Entender a estrutura básica de uma página web usando HTML.
+Estilizar elementos com CSS para melhorar a aparência.
+Implementar lógica condicional em JavaScript para criar interatividade.
+Manipular o DOM (Document Object Model) para atualizar o conteúdo dinamicamente.
+Gerar números aleatórios e trabalhar com entradas do usuário.
+Estrutura do Projeto
+Vamos construir um jogo onde o usuário tenta adivinhar um número aleatório gerado pelo computador. O jogo dará dicas para ajudar o usuário a chegar à resposta correta.
+
+1. Estrutura HTML
+Começamos criando a estrutura básica da nossa página web.
+
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Número</title>
+</head>
+<body>
+    <h1>Adivinhe o Número (1 a 10)</h1>
+
+    <p>Digite um número entre 1 e 10:</p>
+    <input type="number" id="palpite" min="1" max="10">
+    <button onclick="adivinhar()">Adivinhar</button>
+
+    <p id="mensagem"></p>
+
+    <script>
+        // Nosso código JavaScript virá aqui
+    </script>
+</body>
+</html>
+Explicando o HTML:
+<!DOCTYPE html>: Declara que este documento é um documento HTML5.
+<html lang="pt-BR">: Define o idioma da página como português do Brasil.
+<head>: Contém metadados sobre o documento.
+<meta charset="UTF-8">: Define a codificação de caracteres como UTF-8.
+<meta name="viewport" content="width=device-width, initial-scale=1.0">: Garante que a página seja responsiva em dispositivos móveis.
+<title>Adivinhe o Número</title>: Define o título da página que aparece na aba do navegador.
+<body>: Contém o conteúdo visível da página.
+<h1>Adivinhe o Número (1 a 10)</h1>: Título principal do jogo.
+<p>Digite um número entre 1 e 10:</p>: Instrução para o usuário.
+<input type="number" id="palpite" min="1" max="10">: Campo de entrada para o palpite do usuário.
+<button onclick="adivinhar()">Adivinhar</button>: Botão que, ao ser clicado, executa a função adivinhar().
+<p id="mensagem"></p>: Parágrafo onde serão exibidas as mensagens de feedback.
+<script>: Espaço para o código JavaScript que adicionará interatividade ao jogo.
+2. Estilizando com CSS (Opcional)
+Adicionar estilos torna o jogo mais atraente visualmente. Vamos adicionar um pouco de CSS para melhorar a aparência.
+
+html
+Copiar código
+<head>
+    <!-- ... código anterior ... -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f0f8ff;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 60px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #mensagem {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+Explicando o CSS:
+body:
+font-family: Arial, sans-serif;: Define a fonte da página.
+text-align: center;: Centraliza o texto na página.
+margin-top: 50px;: Adiciona uma margem no topo para afastar o conteúdo da borda superior.
+background-color: #f0f8ff;: Define uma cor de fundo suave para a página.
+input:
+padding: 10px;: Adiciona espaço interno no campo de entrada.
+font-size: 16px;: Define o tamanho da fonte dentro do campo.
+width: 60px;: Define a largura do campo de entrada.
+text-align: center;: Centraliza o texto dentro do campo de entrada.
+button:
+padding: 10px 20px;: Adiciona espaço interno no botão.
+font-size: 16px;: Define o tamanho da fonte do texto do botão.
+margin-left: 10px;: Adiciona uma margem à esquerda do botão.
+cursor: pointer;: Muda o cursor para uma mãozinha ao passar sobre o botão, indicando que é clicável.
+background-color: #4CAF50;: Define a cor de fundo do botão.
+color: white;: Define a cor do texto do botão.
+border: none;: Remove a borda padrão do botão.
+border-radius: 5px;: Adiciona cantos arredondados ao botão.
+transition: background-color 0.3s;: Adiciona uma transição suave para mudanças de cor.
+button:hover:
+background-color: #45a049;: Muda a cor de fundo do botão quando o usuário passa o mouse sobre ele.
+#mensagem:
+font-size: 18px;: Define o tamanho da fonte das mensagens de feedback.
+margin-top: 20px;: Adiciona uma margem acima das mensagens.
+color: #333;: Define a cor do texto das mensagens.
+3. Adicionando Interatividade com JavaScript
+Agora, vamos adicionar a lógica que fará o jogo funcionar. O JavaScript será responsável por gerar um número aleatório, capturar o palpite do usuário, verificar se está correto e fornecer feedback.
+
+html
+Copiar código
+<script>
+    // 1. Gera um número aleatório entre 1 e 10
+    let numeroCorreto = Math.floor(Math.random() * 10) + 1;
+
+    // 2. Função que será chamada quando o botão for clicado
+    function adivinhar() {
+        // 3. Captura o valor inserido pelo usuário
+        const palpite = parseInt(document.getElementById("palpite").value);
+        const mensagem = document.getElementById("mensagem");
+
+        // 4. Verifica se o palpite é válido
+        if (isNaN(palpite) || palpite < 1 || palpite > 10) {
+            mensagem.textContent = "Por favor, insira um número válido entre 1 e 10.";
+            mensagem.style.color = "red";
+            return;
+        }
+
+        // 5. Compara o palpite com o número correto
+        if (palpite === numeroCorreto) {
+            mensagem.textContent = "Parabéns! Você adivinhou o número!";
+            mensagem.style.color = "green";
+            reiniciarJogo();
+        } else if (palpite < numeroCorreto) {
+            mensagem.textContent = "Tente um número maior.";
+            mensagem.style.color = "orange";
+        } else {
+            mensagem.textContent = "Tente um número menor.";
+            mensagem.style.color = "orange";
+        }
+    }
+
+    // 6. Função para reiniciar o jogo após uma adivinhação correta
+    function reiniciarJogo() {
+        // Gera um novo número aleatório
+        numeroCorreto = Math.floor(Math.random() * 10) + 1;
+        // Limpa o campo de entrada
+        document.getElementById("palpite").value = "";
+    }
+</script>
+Explicando o JavaScript Passo a Passo:
+Vamos entender cada parte do código de forma lúdica!
+
+1. Gerando um Número Aleatório
+javascript
+Copiar código
+let numeroCorreto = Math.floor(Math.random() * 10) + 1;
+O que é?: Esta linha gera um número aleatório entre 1 e 10 e o armazena na variável numeroCorreto.
+Como Funciona?:
+Math.random(): Gera um número decimal aleatório entre 0 (inclusive) e 1 (exclusivo).
+Math.random() * 10: Multiplica esse número por 10, resultando em um número entre 0 e 10 (não incluindo 10).
+Math.floor(...): Arredonda o número para baixo para obter um inteiro.
++ 1: Ajusta o intervalo para que comece em 1 em vez de 0.
+Analogia: Imagine que o computador está pensando em um número secreto entre 1 e 10.
+2. Definindo a Função adivinhar
+javascript
+Copiar código
+function adivinhar() {
+    // Código da função
+}
+O que é?: Define uma função chamada adivinhar que será executada quando o botão "Adivinhar" for clicado.
+Analogia: É como dar uma ordem ao computador para verificar se o palpite do usuário está correto.
+3. Capturando o Valor Inserido pelo Usuário
+javascript
+Copiar código
+const palpite = parseInt(document.getElementById("palpite").value);
+const mensagem = document.getElementById("mensagem");
+O que é?:
+document.getElementById("palpite").value: Obtém o valor que o usuário inseriu no campo de entrada.
+parseInt(...): Converte esse valor de uma string para um número inteiro.
+document.getElementById("mensagem"): Seleciona o elemento onde exibiremos as mensagens de feedback.
+Analogia: É como o computador lendo o palpite que você digitou e preparando um espaço para responder.
+4. Verificando se o Palpite é Válido
+javascript
+Copiar código
+if (isNaN(palpite) || palpite < 1 || palpite > 10) {
+    mensagem.textContent = "Por favor, insira um número válido entre 1 e 10.";
+    mensagem.style.color = "red";
+    return;
+}
+O que é?:
+isNaN(palpite): Verifica se o valor inserido não é um número.
+palpite < 1 || palpite > 10: Verifica se o número está fora do intervalo permitido (1 a 10).
+mensagem.textContent: Atualiza o texto do elemento de mensagem.
+mensagem.style.color: Muda a cor da mensagem para vermelho, indicando erro.
+return: Interrompe a execução da função se o palpite não for válido.
+Analogia: É como o computador dizendo: "Ei, isso não é um número válido! Tente novamente."
+5. Comparando o Palpite com o Número Correto
+javascript
+Copiar código
+if (palpite === numeroCorreto) {
+    mensagem.textContent = "Parabéns! Você adivinhou o número!";
+    mensagem.style.color = "green";
+    reiniciarJogo();
+} else if (palpite < numeroCorreto) {
+    mensagem.textContent = "Tente um número maior.";
+    mensagem.style.color = "orange";
+} else {
+    mensagem.textContent = "Tente um número menor.";
+    mensagem.style.color = "orange";
+}
+O que é?:
+if (palpite === numeroCorreto): Verifica se o palpite está correto.
+mensagem.textContent = "Parabéns! Você adivinhou o número!";: Exibe uma mensagem de sucesso.
+mensagem.style.color = "green";: Muda a cor da mensagem para verde, indicando sucesso.
+reiniciarJogo();: Chama a função para reiniciar o jogo.
+else if (palpite < numeroCorreto): Verifica se o palpite é menor que o número correto.
+mensagem.textContent = "Tente um número maior.";: Dá uma dica para o usuário tentar um número maior.
+mensagem.style.color = "orange";: Muda a cor da mensagem para laranja, indicando uma dica.
+else: Se nenhuma das condições anteriores for verdadeira, significa que o palpite é maior que o número correto.
+mensagem.textContent = "Tente um número menor.";: Dá uma dica para o usuário tentar um número menor.
+mensagem.style.color = "orange";: Muda a cor da mensagem para laranja.
+Analogia:
+Correto: "Uau! Você acertou!"
+Menor: "Quase lá! Tente um número maior."
+Maior: "Ops! Tente um número menor."
+6. Reiniciando o Jogo
+javascript
+Copiar código
+function reiniciarJogo() {
+    // Gera um novo número aleatório
+    numeroCorreto = Math.floor(Math.random() * 10) + 1;
+    // Limpa o campo de entrada
+    document.getElementById("palpite").value = "";
+}
+O que é?:
+numeroCorreto = Math.floor(Math.random() * 10) + 1;: Gera um novo número aleatório para uma nova rodada.
+document.getElementById("palpite").value = "";: Limpa o campo de entrada para o próximo palpite.
+Analogia: É como preparar o jogo para a próxima rodada, com um novo número secreto e o campo de palpite limpo.
+Resumo Completo do Código
+Vamos ver o código completo novamente com todos os componentes integrados.
+
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f0f8ff;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 60px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #mensagem {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Adivinhe o Número (1 a 10)</h1>
+
+    <p>Digite um número entre 1 e 10:</p>
+    <input type="number" id="palpite" min="1" max="10">
+    <button onclick="adivinhar()">Adivinhar</button>
+
+    <p id="mensagem"></p>
+
+    <script>
+        // 1. Gera um número aleatório entre 1 e 10
+        let numeroCorreto = Math.floor(Math.random() * 10) + 1;
+
+        // 2. Função que será chamada quando o botão for clicado
+        function adivinhar() {
+            // 3. Captura o valor inserido pelo usuário
+            const palpite = parseInt(document.getElementById("palpite").value);
+            const mensagem = document.getElementById("mensagem");
+
+            // 4. Verifica se o palpite é válido
+            if (isNaN(palpite) || palpite < 1 || palpite > 10) {
+                mensagem.textContent = "Por favor, insira um número válido entre 1 e 10.";
+                mensagem.style.color = "red";
+                return;
+            }
+
+            // 5. Compara o palpite com o número correto
+            if (palpite === numeroCorreto) {
+                mensagem.textContent = "Parabéns! Você adivinhou o número!";
+                mensagem.style.color = "green";
+                reiniciarJogo();
+            } else if (palpite < numeroCorreto) {
+                mensagem.textContent = "Tente um número maior.";
+                mensagem.style.color = "orange";
+            } else {
+                mensagem.textContent = "Tente um número menor.";
+                mensagem.style.color = "orange";
+            }
+        }
+
+        // 6. Função para reiniciar o jogo após uma adivinhação correta
+        function reiniciarJogo() {
+            // Gera um novo número aleatório
+            numeroCorreto = Math.floor(Math.random() * 10) + 1;
+            // Limpa o campo de entrada
+            document.getElementById("palpite").value = "";
+        }
+    </script>
+</body>
+</html>
+Como Funciona na Prática?
+Página Carregada: Quando a página é aberta, ela mostra "Adivinhe o Número (1 a 10)", um campo para inserir o palpite, um botão "Adivinhar" e uma área para mensagens.
+Usuário Insere um Palpite: O usuário digita um número entre 1 e 10 no campo de entrada.
+Usuário Clica no Botão: Ao clicar no botão "Adivinhar":
+O JavaScript captura o número inserido.
+Verifica se o número está entre 1 e 10.
+Compara o palpite com o número correto.
+Exibe uma mensagem de feedback:
+Correto: "Parabéns! Você adivinhou o número!" e reinicia o jogo.
+Menor: "Tente um número maior."
+Maior: "Tente um número menor."
+Reinício do Jogo: Se o usuário acertar, um novo número é gerado e o campo de entrada é limpo para uma nova rodada.
+Atividades Práticas
+Para reforçar o aprendizado, tente realizar algumas das atividades abaixo!
+
+1. Personalize as Mensagens de Feedback
+Altere as mensagens para torná-las mais divertidas ou personalizadas.
+
+javascript
+Copiar código
+if (palpite === numeroCorreto) {
+    mensagem.textContent = "Uau! Você acertou de primeira!";
+    mensagem.style.color = "green";
+} else if (palpite < numeroCorreto) {
+    mensagem.textContent = "Quase lá! Pense em um número maior.";
+    mensagem.style.color = "orange";
+} else {
+    mensagem.textContent = "Ops! Tente um número menor.";
+    mensagem.style.color = "orange";
+}
+2. Adicionar um Contador de Tentativas
+Vamos adicionar um contador que mostra quantas tentativas o usuário já fez.
+
+HTML:
+
+html
+Copiar código
+<p>Tentativas: <span id="tentativas">0</span></p>
+CSS (Opcional):
+
+css
+Copiar código
+#tentativas {
+    color: #555;
+}
+JavaScript:
+
+javascript
+Copiar código
+let tentativas = 0;
+const tentativasDisplay = document.getElementById("tentativas");
+
+// Atualizar a função adivinhar
+function adivinhar() {
+    const palpite = parseInt(document.getElementById("palpite").value);
+    const mensagem = document.getElementById("mensagem");
+    const tentativasDisplay = document.getElementById("tentativas");
+
+    if (isNaN(palpite) || palpite < 1 || palpite > 10) {
+        mensagem.textContent = "Por favor, insira um número válido entre 1 e 10.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    tentativas++;
+    tentativasDisplay.textContent = tentativas;
+
+    if (palpite === numeroCorreto) {
+        mensagem.textContent = `Parabéns! Você adivinhou o número em ${tentativas} tentativas!`;
+        mensagem.style.color = "green";
+        reiniciarJogo();
+    } else if (palpite < numeroCorreto) {
+        mensagem.textContent = "Tente um número maior.";
+        mensagem.style.color = "orange";
+    } else {
+        mensagem.textContent = "Tente um número menor.";
+        mensagem.style.color = "orange";
+    }
+}
+
+// Atualizar a função reiniciarJogo
+function reiniciarJogo() {
+    numeroCorreto = Math.floor(Math.random() * 10) + 1;
+    document.getElementById("palpite").value = "";
+    tentativas = 0;
+    tentativasDisplay.textContent = tentativas;
+}
+3. Limitar o Número de Tentativas
+Vamos limitar o número de tentativas a, por exemplo, 5.
+
+JavaScript:
+
+javascript
+Copiar código
+let tentativas = 0;
+const maxTentativas = 5;
+
+function adivinhar() {
+    const palpite = parseInt(document.getElementById("palpite").value);
+    const mensagem = document.getElementById("mensagem");
+    const tentativasDisplay = document.getElementById("tentativas");
+
+    if (isNaN(palpite) || palpite < 1 || palpite > 10) {
+        mensagem.textContent = "Por favor, insira um número válido entre 1 e 10.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    tentativas++;
+    tentativasDisplay.textContent = tentativas;
+
+    if (palpite === numeroCorreto) {
+        mensagem.textContent = `Parabéns! Você adivinhou o número em ${tentativas} tentativas!`;
+        mensagem.style.color = "green";
+        reiniciarJogo();
+    } else if (tentativas >= maxTentativas) {
+        mensagem.textContent = `Fim de jogo! O número correto era ${numeroCorreto}.`;
+        mensagem.style.color = "red";
+        document.getElementById("botaoClique").disabled = true;
+    } else if (palpite < numeroCorreto) {
+        mensagem.textContent = "Tente um número maior.";
+        mensagem.style.color = "orange";
+    } else {
+        mensagem.textContent = "Tente um número menor.";
+        mensagem.style.color = "orange";
+    }
+}
+
+function reiniciarJogo() {
+    numeroCorreto = Math.floor(Math.random() * 10) + 1;
+    document.getElementById("palpite").value = "";
+    tentativas = 0;
+    tentativasDisplay.textContent = tentativas;
+    document.getElementById("botaoClique").disabled = false;
+}
+Nota: Certifique-se de atualizar o ID do botão para botaoClique ou ajustar conforme necessário.
+
+4. Adicionar um Botão de Reinício Manual
+Permita que o usuário reinicie o jogo a qualquer momento clicando em um botão.
+
+HTML:
+
+html
+Copiar código
+<button id="reiniciarJogo">Reiniciar Jogo</button>
+CSS (Opcional):
+
+css
+Copiar código
+#reiniciarJogo {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+#reiniciarJogo:hover {
+    background-color: #007B9E;
+}
+JavaScript:
+
+javascript
+Copiar código
+const botaoReiniciar = document.getElementById("reiniciarJogo");
+
+botaoReiniciar.addEventListener("click", () => {
+    reiniciarJogo();
+    const mensagem = document.getElementById("mensagem");
+    mensagem.textContent = "Jogo reiniciado! Faça seu palpite.";
+    mensagem.style.color = "#333";
+});
+Conclusão
+Parabéns! Você criou um Jogo de Adivinhação de Número funcional e interativo. Neste projeto, aprendemos:
+
+Estrutura Básica de HTML: Como criar e organizar elementos em uma página web.
+Estilização com CSS: Melhorar a aparência dos elementos para uma experiência de usuário mais agradável.
+Interatividade com JavaScript: Implementar lógica condicional e responder a eventos do usuário.
+Manipulação do DOM: Atualizar dinamicamente o conteúdo da página com base nas ações do usuário.
+Trabalhar com Números Aleatórios: Gerar valores imprevisíveis para criar dinamicidade no jogo.
+Próximos Passos
+Agora que você dominou o Jogo de Adivinhação de Número, que tal avançar para projetos mais desafiadores? Aqui estão algumas sugestões:
+
+Jogo da Memória: Desenvolva um jogo onde o usuário deve encontrar pares de cartas iguais.
+Pong Simples: Crie um jogo clássico de Pong utilizando canvas e JavaScript.
+Jogo da Forca: Desenvolva uma versão digital do tradicional jogo de forca.
+Jogo do Dado: Simule o lançamento de um dado e exiba o resultado na tela.
+Cada um desses projetos irá ajudá-lo a aprimorar suas habilidades e entender conceitos mais avançados de programação web. Continue praticando e explorando o mundo da programação!
+
+Recursos Adicionais
+Documentação do MDN Web Docs:
+HTML Básico
+CSS Básico
+JavaScript Básico
+Tutoriais Online:
+W3Schools
+freeCodeCamp
+Ferramentas de Desenvolvimento:
+Editor de Código: Visual Studio Code
+Ambiente de Teste: Qualquer navegador moderno (Google Chrome, Mozilla Firefox, etc.)
+Dicas para Aprendizado
+Pratique Regularmente: A prática constante é essencial para aprimorar suas habilidades de programação.
+Divida Problemas Complexos: Se um problema parecer difícil, divida-o em partes menores e resolva uma de cada vez.
+Busque Ajuda: Utilize fóruns como Stack Overflow para esclarecer dúvidas.
+Projete seus Próprios Jogos: Tente criar variações dos jogos apresentados para solidificar seu entendimento.
+Continue explorando, experimentando e se divertindo com a programação!
