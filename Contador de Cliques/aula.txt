@@ -1,5 +1,7 @@
 Aula de Programação: Construindo um Contador de Cliques
-Bem-vindo à nossa aula de programação! Hoje vamos criar um Contador de Cliques simples usando HTML, CSS e JavaScript. Este projeto é perfeito para iniciantes, pois nos ajuda a entender os conceitos básicos de interação com o usuário e manipulação do conteúdo na página web.
+Bem-vindo à nossa aula de programação! Hoje vamos criar um Contador de Cliques simples usando HTML, 
+CSS e JavaScript. Este projeto é perfeito para iniciantes, pois nos ajuda a entender os 
+conceitos básicos de interação com o usuário e manipulação do conteúdo na página web.
 
 Objetivos da Aula
 Entender a estrutura básica de uma página web usando HTML.
@@ -7,7 +9,8 @@ Estilizar elementos com CSS para melhorar a aparência.
 Interagir com o usuário através de JavaScript, respondendo a eventos como cliques.
 Manipular o DOM (Document Object Model) para atualizar o conteúdo dinamicamente.
 Estrutura do Projeto
-Vamos construir um simples contador que aumenta um número sempre que o usuário clica em um botão. O contador será exibido na tela, mostrando quantas vezes o botão foi clicado.
+Vamos construir um simples contador que aumenta um número sempre que o usuário clica em um botão. 
+O contador será exibido na tela, mostrando quantas vezes o botão foi clicado.
 
 1. Estrutura HTML
 Vamos começar criando a estrutura básica da nossa página web.
