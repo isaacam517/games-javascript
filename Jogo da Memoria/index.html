@@ -42,10 +42,16 @@
         cartasDuplicadas.sort(() => 0.5 - Math.random());
 
         cartasDuplicadas.forEach((letra) => {
+            // para cada letra em cartasDuplicadas, um novo elemento <div> é criado.
             const carta = document.createElement("div");
+            // cada carta recebe a classe carta 
             carta.classList.add("carta");
+            // e o atributo data-letra que contém a letra correspondente
             carta.dataset.letra = letra;
+            // escutando com o listener de evento click é adicionado a cada carta, 
+            // que chama a função virarCarta quando clicada.
             carta.addEventListener("click", virarCarta);
+            // cada carta é então adicionada ao tabuleiro.
             tabuleiro.appendChild(carta);
         });
 

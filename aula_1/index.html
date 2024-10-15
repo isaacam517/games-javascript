@@ -1,49 +1,47 @@
-<!DOCTYPE html> <!-- Declara que este é um documento html -->
-<!-- Define o idioma da página -->
-<html lang="pt-BR"> 
-<!-- Comtém metadados sobre o documento, como charset e título -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!-- Define a codificação de caracteres como UTF-8 é uma das codificações mais utilizadas na web por suportar uma vasta gama 
-     de caracteres de diferentes idiomas e simbolos especiais-->
     <meta charset="UTF-8">
-    <!-- Garante que a página seja responsiva em dispositivos móveis, ocupando toda a tela, e sem zoom -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Define um título para a página que aparece na aba do navegador -->
     <title>Document</title>
-
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-        }
-        #botaoClique {
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        #pontos {
-            color: blue;
-        }
-    </style>
-
 </head>
-<!-- Contém o conteúdo visível da página -->
 <body>
-    <!-- Exibe o título -->
-    <h1>Pontos: <span id="pontos">0</span></h1>
-    <button id="botaoClique"> Clique aqui!</button>
-
-    <script>
-        let pontos = 0;
-        let botaoClique = document.getElementById("botaoClique");
-        let pontosDisplay = document.getElementById("pontos");
-
-        botaoClique.addEventListener("click", () => {
-            pontos++;
-            pontosDisplay.textContent = pontos;
-        });
-    </script>
+    <h1>Exemplos de JavaScript</h1>
     
+    <script>
+        // Exemplo de uso de const
+        const nome = "João"; // 'const' é usado para declarar uma variável que não pode ser reatribuída.
+        console.log("Nome:", nome);
+
+        // Exemplo de uso de let
+        let idade = 25; // 'let' permite que a variável seja reatribuída.
+        console.log("Idade inicial:", idade);
+        
+        // Reatribuindo a variável 'idade'
+        idade = 26;
+        console.log("Idade atualizada:", idade);
+
+        // Exemplo de uso de array
+        const frutas = ["Maçã", "Banana", "Laranja", "Uva"]; // Criando um array com 'const'
+        console.log("Frutas disponíveis:", frutas);
+        
+        // Acessando um elemento do array
+        console.log("Primeira fruta:", frutas[0]);
+
+        // Adicionando uma nova fruta ao array
+        frutas.push("Morango");
+        console.log("Frutas após adicionar Morango:", frutas);
+
+        // Exemplo de função
+        function mostrarFrutas() {
+            console.log("Lista de frutas:");
+            for (let fruta of frutas) {
+                console.log(fruta); // Usando 'let' para iterar sobre o array
+            }
+        }
+
+        // Chamando a função
+        mostrarFrutas();
+    </script>
 </body>
 </html>
